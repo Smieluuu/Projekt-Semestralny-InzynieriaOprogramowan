@@ -13,7 +13,7 @@ def test_app_user_create_endpoint() -> None:
     payload = {"first_name": "Jan", "last_name": "Kowalski"}
     client = app.test_client()
     response = client.post(path='/users', json=payload)
-    assert response.status_code == 200
+    assert response.status_code == 200 and response.json == payload
 
 # PRACA DOMOWA
 # 1. GET /users => zwraca 501
@@ -22,7 +22,7 @@ def test_app_user_get_endpoint() -> None:
     payload = {"first_name": "Jan", "last_name": "Kowalski"}
     client = app.test_client()
     response = client.get(path='/users/get', json=payload)
-    assert response.status_code == 501
+    assert response.status_code == UNIMPLEMENTED
 
 # 2. POST /users => zwraca przesłanego JSON-a i kod odpowiedzi 201
 
@@ -30,7 +30,7 @@ def test_app_user_post_endpoint() -> None:
     payload = {"first_name": "Jan", "last_name": "Kowalski"}
     client = app.test_client()
     response = client.post(path='/users/post', json=payload)
-    assert response.status_code == 201
+    assert response.json == payload and response.status_code == UNIMPLEMENTED
 
 # 3. PUT /users/<id> => zwraca przesłanego JSON-a i kod odpowiedzi 200
 
