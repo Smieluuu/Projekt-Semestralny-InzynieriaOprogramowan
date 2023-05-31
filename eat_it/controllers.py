@@ -1,7 +1,5 @@
 from dataclasses import dataclass
-
 from eat_it.repositories import UserRepository
-
 
 @dataclass
 class AddUserRequest:
@@ -9,7 +7,7 @@ class AddUserRequest:
 
 @dataclass
 class GetUserRequest:
-    pass
+    id: int
 
 @dataclass
 class PostUserRequest:
@@ -29,55 +27,48 @@ class DeleteUserRequest:
 
 
 class AddUserController:
-    def __init__(self, repository: UserRepository.add) -> None:
-        pass
+    def __init__(self, repository: UserRepository) -> None:
+        self.repository = repository
 
     def add(self, request: AddUserRequest) -> None:
-        print(request.user)
+        self.repository.add_user(request.user)
 
-
-# PRACA DOMOWA
-# 1. GET /users => zwraca 501
 
 class GetUserController:
-    def __init__(self, repository: UserRepository.get) -> None:
-        pass
+    def __init__(self, repository: UserRepository) -> None:
+        self.repository = repository
 
-    def get(self, request: GetUserRequest) -> None:
-        raise NotImplementedError()
+    def get(self, request: GetUserRequest) -> dict:
+        return self.repository.get_user(request.id)
 
-# 2. POST /users => zwraca przesłanego JSON-a i kod odpowiedzi 201
 
 class PostUserController:
-    def __init__(self, repository: UserRepository.post) -> None:
-        pass
+    def __init__(self, repository: UserRepository) -> None:
+        self.repository = repository
 
-    def post(self, request: PostUserRequest) -> None:
-        raise NotImplementedError()
+    def post(self, request: PostUserRequest) -> dict:
+        return self.repository.create_user(request.user)
 
-# 3. PUT /users/<id> => zwraca przesłanego JSON-a i kod odpowiedzi 200
 
 class PutUserController:
-    def __init__(self, repository: UserRepository.put) -> None:
-        pass
+    def __init__(self, repository: UserRepository) -> None:
+        self.repository = repository
 
-    def put(self, request: PutUserRequest) -> None:
-        raise NotImplementedError()
+    def put(self, request: PutUserRequest) -> dict:
+        return self.repository.update_user(request.user)
 
-# 4. PATCH /users/<id> => zwraca przesłanego JSON-a i kod odpowiedzi 200
 
 class PatchUserController:
-    def __init__(self, repository: UserRepository.patch) -> None:
-        pass
+    def __init__(self, repository: UserRepository) -> None:
+        self.repository = repository
 
-    def patch(self, request: PatchUserRequest) -> None:
-        raise NotImplementedError()
+    def patch(self, request: PatchUserRequest) -> dict:
+        return self.repository.patch_user(request.user)
 
-# 5. DELETE /users/<id> => zwraca 204
 
 class DeleteUserController:
-    def __init__(self, repository: UserRepository.delete) -> None:
-        pass
+    def __init__(self, repository: UserRepository) -> None:
+        self.repository = repository
 
     def delete(self, request: DeleteUserRequest) -> None:
-        raise NotImplementedError()
+        self.repository.delete_user(request.id)
