@@ -15,76 +15,81 @@ class PingView:
 
 
 class CreateUserView:
+    def __init__(self, controller: AddUserController) -> None:
+        self._controller = controller
+
     def post(self) -> Response:
         user = request.json
-        repository = UserRepository()
-        controller = AddUserController(repository=repository)
         add_user_request = AddUserRequest(user=user)
-        controller.add(request=add_user_request)
+        self.controller.add(request=add_user_request)
         return jsonify(user)
 
 
 class GetUsersView:
+    def __init__(self, controller: GetUserController) -> None:
+        self.controller = controller
+
     def get(self) -> Response:
         user = request.json
-        repository = UserRepository()
-        controller = GetUserController(repository=repository)
+        get_user_request = GetUserRequest()
         try:
-            get_user_request = GetUserRequest()
-            controller.get(request=get_user_request)
+            self.controller.get(request=get_user_request)
         except NotImplementedError:
             return jsonify(user), 501
         return jsonify(user), 200
 
 
 class PostUsersView:
+    def __init__(self, controller: PostUserController) -> None:
+        self.controller = controller
+
     def post(self) -> Response:
         user = request.json
-        repository = UserRepository()
-        controller = PostUserController(repository=repository)
+        post_user_request = PostUserRequest(user=user)
         try:
-            post_user_request = PostUserRequest(user=user)
-            controller.post(request=post_user_request)
+            self.controller.post(request=post_user_request)
         except NotImplementedError:
-            print("no elo elo")
             return jsonify(user), 501
         return jsonify(user), 201
 
 
 class PutUsersView:
+    def __init__(self, controller: PutUserController) -> None:
+        self.controller = controller
+
     def put(self, id: int) -> Response:
         user = request.json
-        repository = UserRepository()
-        controller = PutUserController(repository=repository)
+        put_user_request = PutUserRequest(user=user)
         try:
-            put_user_request = PutUserRequest(user=user)
-            controller.put(request=put_user_request)
+            self.controller.put(request=put_user_request)
         except NotImplementedError:
-            return jsonify(user), 200
-        return jsonify(user), 501
+            return jsonify(user), 501
+        return jsonify(user), 200
 
 
 class PatchUsersView:
+    def __init__(self, controller: PatchUserController) -> None:
+        self.controller = controller
+
     def patch(self, id: int) -> Response:
         user = request.json
-        repository = UserRepository()
-        controller = PatchUserController(repository=repository)
+        patch_user_request = PatchUserRequest(user=user)
         try:
-            patch_user_request = PatchUserRequest(user=user)
-            controller.patch(request=patch_user_request)
+            self.controller.patch(request=patch_user_request)
         except NotImplementedError:
-            return jsonify(user), 200
-        return jsonify(user), 501
+            return jsonify(user), 501
+        return jsonify(user), 200
 
 
 class DeleteUsersView:
+    def __init__(self, controller: DeleteUserController) -> None:
+        self.controller = controller
+
     def delete(self, id: int) -> Response:
         user = request.json
-        repository = UserRepository()
-        controller = DeleteUserController(repository=repository)
+        delete_user_request = DeleteUserRequest(id=id)
         try:
-            delete_user_request = DeleteUserRequest(id=id)
-            controller.delete(request=delete_user_request)
+            self.controller.delete(request=delete_user_request)
         except NotImplementedError:
-            return jsonify(user), 204
-        return jsonify(user), 501
+            return jsonify(user), 501
+        return jsonify(user), 204
